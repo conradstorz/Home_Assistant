@@ -1,0 +1,97 @@
+esphome:
+  name: nodemcu3
+  friendly_name: NodeMCU#3b
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+  level: WARN  # You can adjust the overall logging level if needed.
+
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "JHRxsUjlHRqoGVi1dDiKGUtbWaREr8RlEW3FEvwUIEc="
+
+ota:
+  password: "b3358fab5d00a10887d2a56fd66c6d6a"
+  
+  #name: "device_${mac}"
+  #platform: ESP8266
+  #board: nodemcuv2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Nodemcu3b Fallback Hotspot"
+    password: "4TH5MXjZIgwN"
+
+captive_portal:
+
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+    name: "Input 1 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO2
+      mode: INPUT_PULLUP
+    name: "Input 2 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO4
+      mode: INPUT_PULLUP
+    name: "Input 3 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO5
+      mode: INPUT_PULLUP
+    name: "Input 4 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO12
+      mode: INPUT_PULLUP
+    name: "Input 5 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO13
+      mode: INPUT_PULLUP
+    name: "Input 6 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+    name: "Input 7 - NodeMCU#3b"
+  - platform: gpio
+    pin:
+      number: GPIO15
+      mode: INPUT_PULLUP
+    name: "Input 8 - NodeMCU#3b"
+
+
+output:
+  - platform: gpio
+    pin:
+      number: GPIO16
+      inverted: true  # Inverted because NodeMCU's onboard LED is active low
+    id: onboard_led
+
+light:
+  - platform: binary
+    output: onboard_led
+    id: blinking_light
+    internal: true
+
+interval:
+  - interval: 1s
+    then:
+      - light.toggle: blinking_light
